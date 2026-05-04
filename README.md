@@ -262,7 +262,8 @@ http://ip-address:8000/docs
 
 \# Регистрация пользователя
 
-!\[Register](./screenshots/register.png)
+![Register](https://raw.githubusercontent.com/bergeria/Mandrygina_Olga_M25-555_llm-p/main/screenshots/register.png)
+
 
 
 
