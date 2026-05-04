@@ -262,35 +262,35 @@ http://ip-address:8000/docs
 
 \# Регистрация пользователя
 
-!\[Register](screenshots/register.png)
+!\[Register](./screenshots/register.png)
 
 
 
 \# Логин пользователя - логин и получение JWT
 
-!\[Login](screenshots/login.png)
+!\[Login](./screenshots/login.png)
 
 
 
 \# Авторизацию через Swagger
 
-!\[Auth](screenshots/auth.png)
+!\[Auth](./screenshots/auth.png)
 
 
 
 \# Chat пользователя - вызов POST /chat
 
-!\[Chat](screenshots/chat.png)
+!\[Chat](./screenshots/chat.png)
 
 
 
 \# Получение истории через GET /chat/history
 
-!\[Get\_history](screenshots/get\_history.png)
+!\[Get\_history](./screenshots/get\_history.png)
 
 
 
 \# Удаление истории через DELETE /chat/history
 
-!\[Clear\_history](screenshots/clear\_history.png)
+!\[Clear\_history](./screenshots/clear\_history.png)
 
