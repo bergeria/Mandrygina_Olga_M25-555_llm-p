@@ -25,7 +25,7 @@ async def chat(
     except LLMServiceError as exc:
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail="LLM service error",
+            detail=str(exc),
         ) from exc
 
     return ChatResponse(answer=answer)

@@ -3,9 +3,12 @@ import httpx
 from app.core.config import settings
 from app.core.errors import LLMServiceError
 
-
 class OpenRouterClient:
     async def ask(self, messages: list[dict[str, str]]) -> str:
+        """
+
+        :rtype: str
+        """
         url = f"{settings.openrouter_base_url}/chat/completions"
 
         headers = {
@@ -32,7 +35,19 @@ class OpenRouterClient:
 
         data = response.json()
 
+        #OpenRouter/модели иногда возвращает content в разных форматах.
+        #Но пока не будем заниматься нормализацией ответов.
+
         try:
-            return data["choices"][0]["message"]["content"]
+            content = data["choices"][0]["message"]["content"]
         except (KeyError, IndexError, TypeError) as exc:
             raise LLMServiceError("Invalid OpenRouter response") from exc
+
+        #Чудные ответы иногда приходят...
+        answer = content
+
+        if not answer:
+            raise LLMServiceError("Empty OpenRouter response")
+
+        return answer
+

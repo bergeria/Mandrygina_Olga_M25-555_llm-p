@@ -2,6 +2,10 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
+#В ChatRequest нужно предусмотреть поле prompt как основной текст запроса.
+# Нужно предусмотреть поле system как необязательную системную инструкцию.
+# Нужно предусмотреть max_history, чтобы управлять тем, сколько сообщений брать из истории.
+# Нужно предусмотреть temperature, чтобы студент понимал, как управлять “креативностью” модели.
 
 class ChatRequest(BaseModel):
     prompt: str

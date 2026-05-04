@@ -1,3 +1,4 @@
+from app.core.errors import LLMServiceError
 from app.repositories.chat_messages import ChatMessageRepository
 from app.services.openrouter_client import OpenRouterClient
 
@@ -17,10 +18,13 @@ class ChatUseCase:
         prompt: str,
         system: str | None = None,
     ) -> str:
+        #Берем историю сообщений пользователя
         history = await self.chat_repository.get_by_user_id(user_id)
 
+        #Начинаем собирать список сообщений для модели
         messages: list[dict[str, str]] = []
 
+        #Если есть system-инструкция, то добавляем system-сообщение
         if system:
             messages.append(
                 {
@@ -29,6 +33,7 @@ class ChatUseCase:
                 }
             )
 
+        #Добавляем историю сообщений пользователя в список сообщений для модели
         for item in history:
             messages.append(
                 {
@@ -37,6 +42,8 @@ class ChatUseCase:
                 }
             )
 
+        #Добавляем текущий prompt как сообщение пользователя
+        #в список сообщений для модели
         messages.append(
             {
                 "role": "user",
@@ -44,14 +51,22 @@ class ChatUseCase:
             }
         )
 
+        #Сохраняем prompt в БД как сообщение пользователя
         await self.chat_repository.create(
             user_id=user_id,
             role="user",
             content=prompt,
         )
 
+        #Делаем запрос к OpenRouter
         answer = await self.openrouter_client.ask(messages)
 
+        #Проверяем ответ на None
+        if not answer:
+            raise LLMServiceError("OpenRouter вернул пустой ответ")
+
+        #Ответ сохраняем в БД как сообщение роли assistant
+        #и возвращаем текст ответа
         await self.chat_repository.create(
             user_id=user_id,
             role="assistant",
